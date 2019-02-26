@@ -1,0 +1,17 @@
+﻿  HolaMundo.cpp
+c:\users\hola\desktop\balta\visual studio\holamundo\holamundo\holamundo.cpp(57): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visual studio\holamundo\holamundo\holamundo.cpp(84): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visual studio\holamundo\holamundo\holamundo.cpp(104): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+  HolaMundo.vcxproj -> C:\Users\HOLA\Desktop\Balta\Visual Studio\HolaMundo\x64\Debug\HolaMundo.exe
