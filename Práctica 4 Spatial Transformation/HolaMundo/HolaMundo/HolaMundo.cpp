@@ -45,9 +45,9 @@ int main(int argc, char** argv)
 	Mat matrizGrises2 = Mat::zeros(filas, columnas, CV_64FC1);
 	cvtColor(imagen, matrizGrises2, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
 
-	double L = 255; //Maximo valor de r 
+	double L = 256; //Maximo valor de r 
 	double s = 0;	//intensidad de salida
-
+	
 	//Para Linear Transformation
 	for (int x = 0; x < matrizGrises.rows; x++) {
 		for (int y = 0; y < matrizGrises.cols; y++) {
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
 	waitKey(0);
 	//destroyWindow(windowName);//destruir la ventana creada
 
-
+	
 	/*Para mostrar la imagen en escala de grises antes de la transformada logarítmica*/
 	String windowName2 = "Escala de grises"; //Nombre de la ventana
 	namedWindow(windowName2, WINDOW_AUTOSIZE); // Crear la ventana
@@ -72,7 +72,7 @@ int main(int argc, char** argv)
 	waitKey(0);
 	//destroyWindow(windowName); //destruir la ventana creada
 
-
+	
 
 	double c = 50;
 	//Logarithmic Transform
@@ -81,7 +81,12 @@ int main(int argc, char** argv)
 			Scalar intensity = matrizGrises1.at<uchar>(x, y);
 			double r = intensity.val[0];
 			s = c * log(1 + r);
-			matrizGrises1.at<uchar>(x, y) = s;
+			if (s <= 255) {
+				matrizGrises1.at<uchar>(x, y) = s;
+			}
+			else if (s >255){
+				matrizGrises1.at<uchar>(x, y) = 255;
+			}
 		}
 	}
 
@@ -92,7 +97,7 @@ int main(int argc, char** argv)
 	//destroyWindow(windowName);//destruir la ventana creada
 
 
-
+	
 	//Power Law Transform
 	double gamma = 2.5;
 	c = 0.001;
@@ -101,7 +106,13 @@ int main(int argc, char** argv)
 			Scalar intensity = matrizGrises2.at<uchar>(x, y);
 			double r = intensity.val[0];
 			s = c * pow(r, gamma);
-			matrizGrises2.at<uchar>(x, y) = s;
+			if (s <= 255) {
+				matrizGrises2.at<uchar>(x, y) = s;
+			}
+			else if (s > 255){
+				matrizGrises2.at<uchar>(x, y) = 255;
+			}
+			
 		}
 	}
 
