@@ -1,10 +1,20 @@
 ﻿  PiecewiseTransformations.cpp
-c:\users\hola\desktop\balta\visión por computadora\práctica 5 piecewise transformations\piecewisetransformations\piecewisetransformations\piecewisetransformations.cpp(74): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\práctica 5 piecewise transformations\piecewisetransformations\piecewisetransformations\piecewisetransformations.cpp(82): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
           with
           [
               _Tp=uchar
           ]
-c:\users\hola\desktop\balta\visión por computadora\práctica 5 piecewise transformations\piecewisetransformations\piecewisetransformations\piecewisetransformations.cpp(101): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\práctica 5 piecewise transformations\piecewisetransformations\piecewisetransformations\piecewisetransformations.cpp(86): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\práctica 5 piecewise transformations\piecewisetransformations\piecewisetransformations\piecewisetransformations.cpp(90): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\práctica 5 piecewise transformations\piecewisetransformations\piecewisetransformations\piecewisetransformations.cpp(115): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
           with
           [
               _Tp=uchar

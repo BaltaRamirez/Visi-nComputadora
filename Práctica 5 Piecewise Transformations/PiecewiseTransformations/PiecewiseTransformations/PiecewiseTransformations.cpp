@@ -66,16 +66,19 @@ int main(int argc, char** argv)
 		for (int y = 0; y < matrizGrises.cols; y++) {
 			Scalar intensity = matrizGrises.at<uchar>(x, y);
 			double r = intensity.val[0];
-			s = (s2 - s1) / (r2 - r1) * (r - r1) + s1;	
-			if (s < minimo) {
-				matrizGrises.at<uchar>(x, y) = 0;
-			}
-			else if (s <= maximo) {
+			if (0 <= r && r <= r1) {
+				s = (s1 / r1)*r;
 				matrizGrises.at<uchar>(x, y) = s;
 			}
-			else if(s > maximo){
-				matrizGrises.at<uchar>(x, y) = 255;
+			else if (r1 < r && r <= r2) {
+				s = ((s2 - s1) / (r2 - r1)) * (r - r1) + s1;
+				matrizGrises.at<uchar>(x, y) = s;
 			}
+			else if (r2 < r && r <=255){
+				s = ((255 - s2) / (255 - r2))*(r - r2) + s2;
+				matrizGrises.at<uchar>(x, y) = s;
+			}
+			
 		}
 	}
 	
