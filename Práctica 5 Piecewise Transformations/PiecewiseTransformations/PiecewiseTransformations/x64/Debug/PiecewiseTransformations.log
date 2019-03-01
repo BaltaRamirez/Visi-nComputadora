@@ -1,0 +1,12 @@
+﻿  PiecewiseTransformations.cpp
+c:\users\hola\desktop\balta\visión por computadora\práctica 5 piecewise transformations\piecewisetransformations\piecewisetransformations\piecewisetransformations.cpp(74): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\práctica 5 piecewise transformations\piecewisetransformations\piecewisetransformations\piecewisetransformations.cpp(101): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+  PiecewiseTransformations.vcxproj -> C:\Users\HOLA\Desktop\Balta\Visión por Computadora\Práctica 5 Piecewise Transformations\PiecewiseTransformations\x64\Debug\PiecewiseTransformations.exe
