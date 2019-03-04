@@ -101,7 +101,7 @@ int main(int argc, char** argv)
 				matrizGrises1.at<uchar>(x, y) = 255;
 			}
 			else {
-				matrizGrises1.at<uchar>(x, y) = A;
+				matrizGrises1.at<uchar>(x, y) = 0;
 			}
 		}
 	}
