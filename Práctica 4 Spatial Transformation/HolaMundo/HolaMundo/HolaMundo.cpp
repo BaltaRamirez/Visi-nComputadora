@@ -20,7 +20,7 @@ using namespace std;
 int main(int argc, char** argv)
 {
 	// Leer la imagen
-	Mat imagen = imread("C:/Users/HOLA/Desktop/Balta/Visual Studio/HolaMundo/fogata.png");
+	Mat imagen = imread("C:/Users/HOLA/Desktop/Balta/Visual Studio/HolaMundo/Fig0308(a)(fractured_spine).tiff");
 
 	if (imagen.empty()) // Verificar que se haya cargado la imagen
 	{
@@ -28,13 +28,13 @@ int main(int argc, char** argv)
 		system("pause"); 
 		return -1;
 	}
-
+/*
 	String windowName = "My HelloWorld Window"; //Nombre de la ventana
 	namedWindow(windowName, WINDOW_AUTOSIZE); // Crear la ventana
 	imshow(windowName, imagen); // Mostrar la imagen dentro de la ventana
 	waitKey(0); 
 	//destroyWindow(windowName); //destruir la ventana creada
-
+*/
 	
 	int filas = imagen.rows;
 	int columnas = imagen.cols;
@@ -57,21 +57,21 @@ int main(int argc, char** argv)
 			matrizGrises.at<uchar>(x, y) = s;
 		}
 	}
-
+	/*
 	String windowName1 = "Linear Transformation"; //Nombre de la ventana
 	namedWindow(windowName1, WINDOW_AUTOSIZE); // Crear la ventana
 	imshow(windowName1, matrizGrises); // Mostrar la imagen dentro de la ventana
 	waitKey(0);
 	//destroyWindow(windowName);//destruir la ventana creada
 
-	
-	/*Para mostrar la imagen en escala de grises antes de la transformada logarítmica*/
+
+	Para mostrar la imagen en escala de grises antes de la transformada logarítmica
 	String windowName2 = "Escala de grises"; //Nombre de la ventana
 	namedWindow(windowName2, WINDOW_AUTOSIZE); // Crear la ventana
 	imshow(windowName2, matrizGrises1); // Mostrar la imagen dentro de la ventana
 	waitKey(0);
 	//destroyWindow(windowName); //destruir la ventana creada
-
+	*/
 	
 
 	double c = 50;
@@ -89,18 +89,18 @@ int main(int argc, char** argv)
 			}
 		}
 	}
-
+/*
 	String windowName3 = "Logarithmic Transform"; //Nombre de la ventana
 	namedWindow(windowName3, WINDOW_AUTOSIZE); // Crear la ventana
 	imshow(windowName3, matrizGrises1); // Mostrar la imagen dentro de la ventana
 	waitKey(0);
 	//destroyWindow(windowName);//destruir la ventana creada
-
+*/
 
 	
 	//Power Law Transform
-	double gamma = 2.5;
-	c = 0.001;
+	double gamma = 1;
+	c = 30;
 	for (int x = 0; x < matrizGrises2.rows; x++) {
 		for (int y = 0; y < matrizGrises2.cols; y++) {
 			Scalar intensity = matrizGrises2.at<uchar>(x, y);
@@ -121,7 +121,7 @@ int main(int argc, char** argv)
 	imshow(windowName4, matrizGrises2); // Mostrar la imagen dentro de la ventana
 	waitKey(0);
 	//destroyWindow(windowName);//destruir la ventana creada
-	
+
 
 	return 0;
 }

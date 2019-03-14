@@ -1,0 +1,4 @@
+﻿  Histogram.cpp
+c:\users\hola\desktop\balta\visión por computadora\práctica 6 histogram\histogram\histogram\histogram.cpp(64): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\práctica 6 histogram\histogram\histogram\histogram.cpp(65): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+  Histogram.vcxproj -> C:\Users\HOLA\Desktop\Balta\Visión por Computadora\Práctica 6 Histogram\Histogram\x64\Debug\Histogram.exe
