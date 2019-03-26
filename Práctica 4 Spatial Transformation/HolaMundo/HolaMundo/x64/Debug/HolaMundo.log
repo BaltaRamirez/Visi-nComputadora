@@ -1,0 +1,17 @@
+﻿  HolaMundo.cpp
+c:\users\hola\desktop\balta\visión por computadora\práctica 4 spatial transformation\holamundo\holamundo\holamundo.cpp(57): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\práctica 4 spatial transformation\holamundo\holamundo\holamundo.cpp(85): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\práctica 4 spatial transformation\holamundo\holamundo\holamundo.cpp(110): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+  HolaMundo.vcxproj -> C:\Users\HOLA\Desktop\Balta\Visión por Computadora\Práctica 4 Spatial Transformation\HolaMundo\x64\Debug\HolaMundo.exe
