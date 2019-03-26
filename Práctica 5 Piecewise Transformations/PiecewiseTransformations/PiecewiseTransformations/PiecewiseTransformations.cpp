@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 {
 
 	//leer la imagen
-	Mat imagen = imread("C:/Users/HOLA/Desktop/Balta/Visual Studio/HolaMundo/fogata.png");
+	Mat imagen = imread("C:/Users/HOLA/Desktop/Balta/Visual Studio/HolaMundo/GM_GreyScaleCorrupted.png");
 
 	if (imagen.empty()) // Verificar que se haya cargado la imagen
 	{
@@ -39,6 +39,12 @@ int main(int argc, char** argv)
 	cvtColor(imagen, matrizGrises1, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
 	Mat matrizGrises2 = Mat::zeros(filas, columnas, CV_64FC1);
 	cvtColor(imagen, matrizGrises2, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
+	Mat matrizGrises3 = Mat::zeros(filas, columnas, CV_64FC1);
+	cvtColor(imagen, matrizGrises3, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
+	Mat matrizGrises4 = Mat::zeros(filas, columnas, CV_64FC1);
+	cvtColor(imagen, matrizGrises4, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
+	Mat matrizGrises5 = Mat::zeros(filas, columnas, CV_64FC1);
+	cvtColor(imagen, matrizGrises5, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
 
 
 	String escalaGrises = "Escala de grises"; //Nombre de la ventana
@@ -89,7 +95,7 @@ int main(int argc, char** argv)
 	//destroyWindow(windowName);//destruir la ventana creada
 
 	/*-----------------------------------------INTENSITY-LEVEL SLICING------------------------------*/
-	double A = 15;
+	double A = 5;
 	double B = 50;
 
 
@@ -111,6 +117,74 @@ int main(int argc, char** argv)
 	imshow(intensityLevelSlicing, matrizGrises1); // Mostrar la imagen dentro de la ventana
 	waitKey(0);
 	//destroyWindow(windowName);//destruir la ventana creada
+
+
+
+	//Para Linear Transformation
+	for (int x = 0; x < matrizGrises2.rows; x++) {
+		for (int y = 0; y < matrizGrises2.cols; y++) {
+			Scalar intensity = matrizGrises2.at<uchar>(x, y);
+			double r = intensity.val[0];
+			s = L - 1 - r;
+			matrizGrises2.at<uchar>(x, y) = s;
+		}
+	}
+
+	String windowName1 = "Linear Transformation"; //Nombre de la ventana
+	namedWindow(windowName1, WINDOW_AUTOSIZE); // Crear la ventana
+	imshow(windowName1, matrizGrises2); // Mostrar la imagen dentro de la ventana
+	waitKey(0);
+	//destroyWindow(windowName);//destruir la ventana creada
+
+	double c = 20;
+	//Logarithmic Transform
+	for (int x = 0; x < matrizGrises3.rows; x++) {
+		for (int y = 0; y < matrizGrises3.cols; y++) {
+			Scalar intensity = matrizGrises3.at<uchar>(x, y);
+			double r = intensity.val[0];
+			s = c * log(1 + r);
+			if (s <= 255) {
+				matrizGrises3.at<uchar>(x, y) = s;
+			}
+			else if (s > 255) {
+				matrizGrises3.at<uchar>(x, y) = 255;
+			}
+		}
+	}
+
+	String windowName3 = "Logarithmic Transform"; //Nombre de la ventana
+	namedWindow(windowName3, WINDOW_AUTOSIZE); // Crear la ventana
+	imshow(windowName3, matrizGrises3); // Mostrar la imagen dentro de la ventana
+	waitKey(0);
+	//destroyWindow(windowName);//destruir la ventana creada
+
+
+
+	//Power Law Transform
+	double gamma = 0.5;
+	c = 15;
+	for (int x = 0; x < matrizGrises.rows; x++) {
+		for (int y = 0; y < matrizGrises.cols; y++) {
+			Scalar intensity = matrizGrises.at<uchar>(x, y);
+			double r = intensity.val[0];
+			s = c * pow(r, gamma);
+			if (s <= 255) {
+				matrizGrises.at<uchar>(x, y) = s;
+			}
+			else if (s > 255) {
+				matrizGrises.at<uchar>(x, y) = 255;
+			}
+
+		}
+	}
+	
+		String windowName4 = "Power Law Transform"; //Nombre de la ventana
+		namedWindow(windowName4, WINDOW_AUTOSIZE); // Crear la ventana
+		imshow(windowName4, matrizGrises); // Mostrar la imagen dentro de la ventana
+		waitKey(0);
+		//destroyWindow(windowName);//destruir la ventana creada
+		
+
 
 	return 0;
 }

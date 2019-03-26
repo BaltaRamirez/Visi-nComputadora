@@ -14,16 +14,49 @@
 #include <string>
 #include <vector>
 
+//double obtenerSalidaGris(vector<double> &myvectorAux, double totalPixeles);
 
-double ocurrence(double r, const cv::Mat& matrizGrises);
+
+double pdf = 0;
+double cdf = 0;
+double nk = 0;
+double sk = 0;
+double multiplicacion = 0;
+double L = 256; //Maximo valor de r 
+
+
 using namespace cv;
 using namespace std;
+
+double obtenerSalidaGris(vector<double> &myvectorAux, double totalPixeles) {
+
+	double salidaGris = 0;
+	
+
+	for (unsigned i = 0; i < myvectorAux.size(); i++) {
+		pdf = myvectorAux.at(i) / totalPixeles;
+		
+		cdf += pdf;
+		
+		multiplicacion = (L - 1)*cdf;
+		
+		salidaGris = rint(multiplicacion);
+		if (salidaGris > L)
+			salidaGris = L - 1;
+		cout << i << " " << myvectorAux.at(i) << " PDF " << pdf << " CDF " << cdf << " " << salidaGris << endl;
+		
+
+		
+	}
+	//cout << " PDF " << pdf << " CDF " << cdf << " " << salidaGris << endl;
+	return salidaGris;
+}
 
 int main(int argc, char** argv)
 {
 
 	//leer la imagen
-	Mat imagen = imread("C:/Users/HOLA/Desktop/Balta/Visual Studio/HolaMundo/fogata.png");
+	Mat imagen = imread("C:/Users/HOLA/Desktop/Balta/Visual Studio/HolaMundo/GM_GreyScale.png");
 
 	if (imagen.empty()) // Verificar que se haya cargado la imagen
 	{
@@ -49,56 +82,41 @@ int main(int argc, char** argv)
 	waitKey(0);
 	//destroyWindow(windowName);//destruir la ventana creada
 	*/
-	double L = 256; //Maximo valor de r 
-	double s = 0;	//intensidad de salida
-
-	double salidaNivelGris = 0;
-	double multiplicacion = 0;
-	double totalPixeles = filas * columnas;
-	double pdf = 0;
-	double cdf = 0; 
-	double nk = 0;
-	double sk = 0;
-	double r = 0;
-
-	vector<double> myvector(L);
-	vector<double> myvectorAux(L);
 	
+	double s = 0;	//intensidad de salida
+	double totalPixeles = filas * columnas;
+	double r = 0;	//Intensidad del pixel
+	double salidaNivelGris = 0;
+
+
+	vector<double> myvector(L);		//Vector de 255 para guardar aqui la cantidad de ocurrencias
+	vector<double> myvectorAux(L);
 
 	for (unsigned i = 0; i < myvector.size(); i++)
 		myvector.at(i) = i;
+
 		
 	
-	//Para calcular Histograma y aplicar ecualización
+	//Para guardar los valores de las ocurrencias
 	for (int x = 0; x < matrizGrises.rows; x++) {
 		for (int y = 0; y < matrizGrises.cols; y++) {
 			Scalar intensity = matrizGrises.at<uchar>(x, y);
-			r = intensity.val[0];		//nivel de gris
-			for (unsigned i = 0; i < myvector.size(); i++) {
-				
-				//¿Es igual el valor de escala de grises a la intensidad?
-				if (myvector.at(i) == r) {	
-					nk = ocurrence(r, matrizGrises);	//Obtener el número de ocurrencias
-					
-					pdf = nk / totalPixeles;
-					cdf += pdf;
-					multiplicacion = (L - 1)*cdf;
-					salidaNivelGris = rint(multiplicacion);
-					//sk += nk;
-					
-					cout << myvector.at(i) << " | " << nk << " | " << pdf << " | " << cdf << " | " << multiplicacion << " | " << salidaNivelGris << endl;
-					myvector.erase(myvector.begin()+i);	//Eliminar el valor de escala de grises para evitar repetir búsqueda de ocurrencias
-					//myvectorAux.insert(myvectorAux.begin()+i, nk);
-					//cout << myvectorAux.at(i) << endl;
-				}
-				
-			}
-			//matrizGrises1.at<uchar>(x, y) = salidaNivelGris;
+			r = intensity.val[0];		//intensidad del pixel
+			myvector.at(r) = myvector.at(r) + 1;
 		}
 	}
-	
-	//cout << myvectorAux.size() << endl;
-		
+
+	myvectorAux = myvector;		//Crear una copia del vector con los valores de ocurrencias
+
+	salidaNivelGris = obtenerSalidaGris(myvectorAux, totalPixeles);
+
+	/*
+	//Para calcular el histograma y aplicarlo a la imagen
+	for (int x = 0; x < matrizGrises.rows; x++) {
+		for (int y = 0; y < matrizGrises.cols; y++) {
+		}
+	}
+	*/
 	
 		
 	/*
@@ -111,21 +129,22 @@ int main(int argc, char** argv)
 
 	return 0;
 }
+/*
+double obtenerSalidaGris(vector<double> &myvectorAux, double totalPixeles) {
 
-double ocurrence(double r, const cv::Mat& matrizGrises) {
-	double nk = 0;
-	double rk = 0;
+	double salidaGris = 0;
 
-	for (int i = 0; i < matrizGrises.rows; i++) {
-		for (int j = 0; j < matrizGrises.cols; j++) {
-			Scalar intensity2 = matrizGrises.at<uchar>(i, j);
-			rk = intensity2.val[0];
-
-			if (r == rk) {
-				nk++;
-			}
+	for (unsigned i = 0; i < myvectorAux.size(); i++) {
+		pdf = myvectorAux.at(i) / totalPixeles;
+		cdf += pdf;
+		multiplicacion = (L - 1)*cdf;
+		salidaGris = rint(multiplicacion);
+		if (salidaGris > L) {
+			salidaGris = L - 1;
 		}
+		cout << i << " " << myvectorAux.at(i) << " PDF " << pdf << " CDF " << cdf << " " << salidaGris << endl;
 	}
 
-	return nk;
+	return salidaGris;
 }
+*/
