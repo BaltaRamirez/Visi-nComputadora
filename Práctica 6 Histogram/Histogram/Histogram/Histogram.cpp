@@ -14,49 +14,15 @@
 #include <string>
 #include <vector>
 
-//double obtenerSalidaGris(vector<double> &myvectorAux, double totalPixeles);
-
-
-double pdf = 0;
-double cdf = 0;
-double nk = 0;
-double sk = 0;
-double multiplicacion = 0;
-double L = 256; //Maximo valor de r 
-
-
 using namespace cv;
 using namespace std;
 
-double obtenerSalidaGris(vector<double> &myvectorAux, double totalPixeles) {
-
-	double salidaGris = 0;
-	
-
-	for (unsigned i = 0; i < myvectorAux.size(); i++) {
-		pdf = myvectorAux.at(i) / totalPixeles;
-		
-		cdf += pdf;
-		
-		multiplicacion = (L - 1)*cdf;
-		
-		salidaGris = rint(multiplicacion);
-		if (salidaGris > L)
-			salidaGris = L - 1;
-		cout << i << " " << myvectorAux.at(i) << " PDF " << pdf << " CDF " << cdf << " " << salidaGris << endl;
-		
-
-		
-	}
-	//cout << " PDF " << pdf << " CDF " << cdf << " " << salidaGris << endl;
-	return salidaGris;
-}
 
 int main(int argc, char** argv)
 {
 
 	//leer la imagen
-	Mat imagen = imread("C:/Users/HOLA/Desktop/Balta/Visual Studio/HolaMundo/GM_GreyScale.png");
+	Mat imagen = imread("C:/Users/HOLA/Desktop/Balta/Visual Studio/HolaMundo/fogata.png");
 
 	if (imagen.empty()) // Verificar que se haya cargado la imagen
 	{
@@ -68,6 +34,7 @@ int main(int argc, char** argv)
 
 	int filas = imagen.rows;
 	int columnas = imagen.cols;
+	//Se crean matrices para trabajar con ellas en escala de grises
 	Mat matrizGrises = Mat::zeros(filas, columnas, CV_64FC1);
 	cvtColor(imagen, matrizGrises, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
 	Mat matrizGrises1 = Mat::zeros(filas, columnas, CV_64FC1);
@@ -75,23 +42,26 @@ int main(int argc, char** argv)
 	Mat matrizGrises2 = Mat::zeros(filas, columnas, CV_64FC1);
 	cvtColor(imagen, matrizGrises2, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
 
-	/*
+	/*Para mostrar la imagen en escala de grises*/
 	String escalaGrises = "Escala de grises"; //Nombre de la ventana
 	namedWindow(escalaGrises, WINDOW_AUTOSIZE); // Crear la ventana
 	imshow(escalaGrises, matrizGrises); // Mostrar la imagen dentro de la ventana en escala de grises antes de ser tratada
 	waitKey(0);
-	//destroyWindow(windowName);//destruir la ventana creada
-	*/
 	
+	/*Variables necesarias para calcular el histograma*/
 	double s = 0;	//intensidad de salida
 	double totalPixeles = filas * columnas;
 	double r = 0;	//Intensidad del pixel
-	double salidaNivelGris = 0;
-
-
+	double pdf = 0;
+	double cdf = 0;
+	double nk = 0;
+	double sk = 0;
+	double multiplicacion = 0;
+	double L = 256; //Maximo valor de r 
 	vector<double> myvector(L);		//Vector de 255 para guardar aqui la cantidad de ocurrencias
-	vector<double> myvectorAux(L);
+	vector<double> salidaNivelGris(L);	//Vector de 255 para almacenar la nueva salida para la imagen ecualizada
 
+	/*Llenar el arreglo para las ocurrencias de forma ordenada para cada nivel de entrada de gris*/
 	for (unsigned i = 0; i < myvector.size(); i++)
 		myvector.at(i) = i;
 
@@ -102,49 +72,48 @@ int main(int argc, char** argv)
 		for (int y = 0; y < matrizGrises.cols; y++) {
 			Scalar intensity = matrizGrises.at<uchar>(x, y);
 			r = intensity.val[0];		//intensidad del pixel
-			myvector.at(r) = myvector.at(r) + 1;
+			myvector.at(r) = myvector.at(r) + 1;	//Donde encuentre ese nivel de intensidad en el vector, le sumará 1 para calcular total de ocurrencias
 		}
 	}
 
-	myvectorAux = myvector;		//Crear una copia del vector con los valores de ocurrencias
 
-	salidaNivelGris = obtenerSalidaGris(myvectorAux, totalPixeles);
+	//Para calcular el histograma
+	for (int i = 0; i < myvector.size(); i++) {
 
-	/*
-	//Para calcular el histograma y aplicarlo a la imagen
+		pdf = myvector.at(i) / totalPixeles;
+		cdf += pdf;
+		multiplicacion = (L - 1)*cdf;
+		salidaNivelGris.at(i) = rint(multiplicacion);
+
+		if (salidaNivelGris.at(i) > L)	//¿Se encuentra fuera del nivel máximo en escala de grises? Si es así, igualar al nivel máximo (255)
+			salidaNivelGris.at(i) = L - 1;
+			
+		
+		cout << i << " " << myvector.at(i) << " PDF " << pdf << " CDF " << cdf << " " << salidaNivelGris.at(i) << endl;
+
+	}
+
+
+	
+	//Para ecualizar la imagen
 	for (int x = 0; x < matrizGrises.rows; x++) {
 		for (int y = 0; y < matrizGrises.cols; y++) {
+			Scalar intensity = matrizGrises.at<uchar>(x, y);
+			r = intensity.val[0];		//intensidad del pixel
+			for (int i = 0; i < myvector.size(); i++) {
+				if(r == i)		//¿Encontró la intensidad dentro del vector de salida? Asignar nuevo valor de salida para esa intensidad
+					matrizGrises.at<uchar>(x, y) = salidaNivelGris.at(r);
+			}
 		}
 	}
-	*/
 	
-		
-	/*
+
 	String histogram = "Histogram"; //Nombre de la ventana
 	namedWindow(histogram, WINDOW_AUTOSIZE); // Crear la ventana
-	imshow(histogram, matrizGrises1); // Mostrar la imagen dentro de la ventana
+	imshow(histogram, matrizGrises); // Mostrar la imagen dentro de la ventana
 	waitKey(0);
-	//destroyWindow(windowName);//destruir la ventana creada
-	*/
+	
+	
 
 	return 0;
 }
-/*
-double obtenerSalidaGris(vector<double> &myvectorAux, double totalPixeles) {
-
-	double salidaGris = 0;
-
-	for (unsigned i = 0; i < myvectorAux.size(); i++) {
-		pdf = myvectorAux.at(i) / totalPixeles;
-		cdf += pdf;
-		multiplicacion = (L - 1)*cdf;
-		salidaGris = rint(multiplicacion);
-		if (salidaGris > L) {
-			salidaGris = L - 1;
-		}
-		cout << i << " " << myvectorAux.at(i) << " PDF " << pdf << " CDF " << cdf << " " << salidaGris << endl;
-	}
-
-	return salidaGris;
-}
-*/
