@@ -25,10 +25,23 @@ using namespace std;
 double L = 256; //Maximo valor de r 
 double s = 0;	//intensidad de salida
 void menu();
+void escalar(int i, int j, int sX, int sY);
+void trasladar(int i, int j, int tX, int tY);
 void transformacionEspacial(Mat& imagen);
 void transformacionPartes(Mat& imagen);
 void histograma(Mat& imagen);
 void histogramMatching(Mat& imagenReferencia, Mat& imagenHistogramMatching);
+void mostrarMatrizEscalada();
+void mostrarMatrizTrasladada();
+
+const int filas = 10;
+const int columnas = 10;
+int matriz[filas][columnas] = { 0 };
+int i = 0;
+int j = 0;
+int matrizTrasladada[filas][columnas] = { 0 };
+int matrizEscalada[filas][columnas] = { 0 };
+int region = 1;
 
 int main(int argc, char** argv)
 {
@@ -39,11 +52,6 @@ int main(int argc, char** argv)
 	Mat imagenReferencia;
 	Mat imagenHistogramMatching;
 
-	const int filas = 10;
-	const int columnas = 10;
-	int matriz[filas][columnas] = { 0 };
-	int i = 0;
-	int j = 0;
 	
 
 	do
@@ -56,7 +64,66 @@ int main(int argc, char** argv)
 		switch (opcion) 
 		{
 			case 1:
+
 				cout << "\t\t 1.Extraccion de regiones en una imagen binaria" << endl;
+
+				cout << "Ingresa los valores de la matriz. La matriz es de 10x10 " << endl;
+
+				//Llenar la matriz
+				for (i = 0; i < filas; i++) {
+					for (j = 0; j < columnas; j++) {
+						cout << i << "," << j << " ";
+						cin >> matriz[i][j];
+					}
+				}
+				
+/*
+				matriz[2][2] = 1;
+				matriz[2][3] = 1;
+				matriz[2][4] = 1;
+				matriz[2][5] = 1;
+				matriz[3][2] = 1;
+				matriz[3][3] = 1;
+				matriz[3][4] = 1;
+				matriz[3][5] = 1;
+				matriz[4][2] = 1;
+				matriz[4][5] = 1;
+				matriz[5][2] = 1;
+				matriz[5][3] = 1;
+				matriz[5][4] = 1;
+				matriz[5][5] = 1;
+
+				matriz[6][6] = 1;
+				matriz[6][8] = 1;
+*/
+				//Mostrar matriz
+				for (i = 0; i < filas; i++) {
+					for (j = 0; j < columnas; j++) {
+						printf(" %d ", matriz[i][j]);
+					}
+					printf("\n");
+				}
+
+				cout << "\n";
+
+				//Verificar region
+				for (i = 0; i < filas; i++)
+				{
+					for (j = 0; j < columnas; j++)
+					{
+						if (matriz[i][j] == 1) {
+							if (matriz[i - 1][j] == 1 || matriz[i][j - 1] == 1 || matriz[i + 1][j] == 1 || matriz[i][j + 1] == 1 || matriz[i - 1][j - 1] == 1 || matriz[i - 1][j + 1] == 1 || matriz[i + 1][j - 1] == 1 || matriz[i + 1][j + 1] == 1) {
+								printf("Pos: %d,%d |R%d \n", i, j, region);
+							}
+							else
+							{
+								region++;
+							}
+						}
+							
+					}
+				}
+
 				system("pause");
 				system("cls");
 
@@ -65,14 +132,20 @@ int main(int argc, char** argv)
 			case 2:
 				cout << "\t\t 2.Extraccion de bordes de regiones en una imagen binaria" << endl;
 				cout << "\n" << endl;
+				cout << "Ingresa los valores de la matriz. La matriz es de 10x10 " << endl;
+
 				//Llenar la matriz de 0's
 				for (i = 0; i < filas; i++) {
 					for (j = 0; j < columnas; j++) {
-						matriz[i][j] = 0;
+						cout << i << "," << j << " ";
+						cin>> matriz[i][j];
 					}
 				}
 
+				
 				//Asignando valores de 1 a la matriz
+
+/*
 				matriz[2][2] = 1;
 				matriz[2][3] = 1;
 				matriz[2][4] = 1;
@@ -97,7 +170,7 @@ int main(int argc, char** argv)
 				matriz[5][7] = 1;
 				matriz[5][8] = 1;
 
-
+				*/
 				printf("Matriz Original\n");
 				//Visualizar matriz
 				for (i = 0; i < filas; i++) {
@@ -113,7 +186,8 @@ int main(int argc, char** argv)
 						if (matriz[i][j] == 1) {
 							if (matriz[i - 1][j] == 0 || matriz[i][j - 1] == 0 || matriz[i + 1][j] == 0 || matriz[i][j + 1] == 0 || matriz[i - 1][j - 1] == 0 || matriz[i - 1][j + 1] == 0 || matriz[i + 1][j - 1] == 0 || matriz[i + 1][j + 1] == 0)
 							{
-								printf("%d,%d | ", i, j);
+								
+								printf("Pos: %d,%d \n", i, j);
 							}
 						}
 					}
@@ -125,10 +199,130 @@ int main(int argc, char** argv)
 			break;
 
 			case 3:
+				int tX; 
+				int tY;
+				cout << "\t\t 3. Transformacion Espacial de Traslacion" << endl;
+				cout << "\n" << endl;
+				cout << "Ingresa los valores de la matriz. La matriz es de 10x10 " << endl;
+
+				//Llenar la matriz
+				for (i = 0; i < filas; i++) {
+					for (j = 0; j < columnas; j++) {
+						cout << i << "," << j << " ";
+						cin >> matriz[i][j];
+					}
+				}
+				
+
+				/*
+				matriz[2][2] = 1;
+				matriz[2][3] = 1;
+				matriz[2][4] = 1;
+				matriz[2][5] = 1;
+				matriz[3][2] = 1;
+				matriz[3][3] = 1;
+				matriz[3][4] = 1;
+				matriz[3][5] = 1;
+				matriz[4][2] = 1;
+				matriz[4][5] = 1;
+				matriz[5][2] = 1;
+				matriz[5][3] = 1;
+				matriz[5][4] = 1;
+				matriz[5][5] = 1;
+
+				*/
+
+				cout << "Ingresa el valor de tX " << endl;
+				cin >> tY;
+				cout << "Ingresa el valor de tY " << endl;
+				cin >> tX;
+				cout << "Matriz Original" << endl;
+				//Visualizar matriz de entrada
+				for (i = 0; i < filas; i++) {
+					for (j = 0; j < columnas; j++) {
+						printf(" %d ", matriz[i][j]);
+					}
+					printf("\n");
+				}
+
+				cout << "\n";
+
+				for (i = 0; i < filas; i++)
+				{
+					for (j = 0; j < columnas; j++)
+					{
+						if (matriz[i][j] == 1)
+							trasladar(i, j, tX, tY);
+					}
+				}
+
+				cout << "Matriz Trasladada" << endl;
+				mostrarMatrizTrasladada();
+				system("pause");
+				system("cls");
+
 
 			break;
 
 			case 4:
+				int sX;
+				int sY;
+				cout << "\t\t 4. Transformacion Espacial de Escala (Scaling)" << endl;
+				cout << "\n" << endl;
+				cout << "Ingresa los valores de la matriz. La matriz es de 10x10 " << endl;
+
+				//Llenar la matriz
+				for (i = 0; i < filas; i++) {
+					for (j = 0; j < columnas; j++) {
+						cout << i << "," << j << " ";
+						cin >> matriz[i][j];
+					}
+				}
+				
+				cout << "Ingresa el valor de sX " << endl;
+				cin >> sX;
+				cout << "Ingresa el valor de sY " << endl;
+				cin >> sY;
+/*
+				matriz[2][2] = 1;
+				matriz[2][3] = 1;
+				matriz[2][4] = 1;
+				matriz[2][5] = 1;
+				matriz[3][2] = 1;
+				matriz[3][3] = 1;
+				matriz[3][4] = 1;
+				matriz[3][5] = 1;
+				matriz[4][2] = 1;
+				matriz[4][5] = 1;
+				matriz[5][2] = 1;
+				matriz[5][3] = 1;
+				matriz[5][4] = 1;
+				matriz[5][5] = 1;
+*/
+				cout << "Matriz Original" << endl;
+				//Visualizar matriz de entrada
+				for (i = 0; i < filas; i++) {
+					for (j = 0; j < columnas; j++) {
+						printf(" %d ", matriz[i][j]);
+					}
+					printf("\n");
+				}
+
+				cout << "\n";
+
+				for (i = 0; i < filas; i++)
+				{
+					for (j = 0; j < columnas; j++)
+					{
+						if (matriz[i][j] == 1)
+							escalar(i, j, sX, sY);
+					}
+				}
+
+				cout << "Matriz Escalada" << endl;
+				mostrarMatrizEscalada();
+				system("pause");
+				system("cls");
 
 			break;
 
@@ -202,7 +396,7 @@ void menu() {
 	cout << "\n" << endl;
 	cout << "1. Extraccion de regiones en una imagen binaria" << endl;
 	cout << "2. Extraccion de bordes de regiones en una imagen binaria" << endl;
-	cout << "3. Transformacion Espacial de Rotacion" << endl;
+	cout << "3. Transformacion Espacial de Traslacion" << endl;
 	cout << "4. Transformacion Espacial de Escala (Scaling)" << endl;
 	cout << "5. Transformacion Espacial de Distorsion Vertical (Vertical Shear)" << endl;
 	cout << "6. Transformacion Espacial de Distorsion Horizontal (Horizontal Shear)" << endl;
@@ -471,6 +665,8 @@ void histograma(Mat& imagen) {
 	//Se crean matrices para trabajar con ellas en escala de grises
 	Mat matrizGrises = Mat::zeros(filas, columnas, CV_64FC1);
 	cvtColor(imagen, matrizGrises, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
+	Mat matrizGrises1 = Mat::zeros(filas, columnas, CV_64FC1);
+	cvtColor(imagen, matrizGrises1, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
 
 
 	/*Variables necesarias para calcular el histograma*/
@@ -543,7 +739,7 @@ void histograma(Mat& imagen) {
 	/*Para mostrar la imagen en escala de grises*/
 	String escalaGrises = "Escala de grises"; //Nombre de la ventana
 	namedWindow(escalaGrises, WINDOW_AUTOSIZE); // Crear la ventana
-	imshow(escalaGrises, matrizGrises); // Mostrar la imagen dentro de la ventana en escala de grises antes de ser tratada
+	imshow(escalaGrises, matrizGrises1); // Mostrar la imagen dentro de la ventana en escala de grises antes de ser tratada
 	//waitKey(0);
 
 
@@ -693,6 +889,11 @@ void histogramMatching(Mat& imagenReferencia, Mat& imagenHistogramMatching) {
 		}
 	}
 
+	cout << "Ingresa nombre y extension para imagen con Histogram Matching aplicado" << endl;
+	cin >> rutaSalida;
+	imwrite("C:/Users/HOLA/Desktop/imagenesSalida/ " + rutaSalida, matrizGrises2);
+	cout << "\n" << endl;
+
 
 	/*Para mostrar la imagen de referencia en escala de grises*/
 	String escalaGrisesReferencia = "Escala de grises de Referencia"; //Nombre de la ventana
@@ -709,4 +910,128 @@ void histogramMatching(Mat& imagenReferencia, Mat& imagenHistogramMatching) {
 	destroyWindow(histogramMatching);//destruir la ventana creada
 	system("pause");
 	system("cls");
+}
+
+void escalar(int i, int j, int sX, int sY) {
+
+	int auxPos = 0;
+	int coordX = 0;
+	int coordY = 0;
+	int vectorCoordenada[3] = { i,j,1 };
+	int vectorCoordenadaNueva[3] = { 0 };
+
+	int matrizTransformacion[3][3] = { {sX, 0, 0},
+									  {0, sY, 0},
+									  {0, 0, 1} };	//Aquí se define el incremento a escalar en T11 y T22
+
+	int x = 0;
+	int y = 0;
+
+
+	for (x = 0; x < 3; x++)
+	{
+		for (y = 0; y < 3; y++)
+		{
+			auxPos += vectorCoordenada[y] * matrizTransformacion[y][x];
+
+		}
+		vectorCoordenadaNueva[x] = auxPos;
+		auxPos = 0;
+	}
+
+	//Para sacar coordenadas X y Y nuevas
+
+	coordX = vectorCoordenadaNueva[0];
+	coordY = vectorCoordenadaNueva[1];
+	//printf(" %d %d\n", coordX, coordY);
+
+	if (matriz[i][j] == 1)
+	{
+		if (matriz[i][j + 1] != 0)
+		{
+			matrizEscalada[i][j] = 1;
+
+		}
+		else if (matriz[i][j + 1] == 0)
+		{
+			for (x = 0; x <= sX; x++)
+			{
+				matrizEscalada[i][j + x] = 1;
+			}
+		}
+
+		if (matriz[i + 1][j] != 0)
+		{
+			matrizEscalada[i][j] = 1;
+		}
+		else if (matriz[i + 1][j] == 0)
+		{
+			for (y = 0; y <= sY; y++)
+			{
+				matrizEscalada[i + y][j] = 1;
+			}
+		}
+
+	}
+
+}
+void mostrarMatrizEscalada()
+{
+	//Visualizar matriz
+	for (i = 0; i < filas; i++) {
+		for (j = 0; j < columnas; j++) {
+			printf(" %d ", matrizEscalada[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void trasladar(int i, int j, int tX, int tY) {
+	
+	int auxPos = 0;
+	int coordX = 0;
+	int coordY = 0;
+	int vectorCoordenada[3] = { i,j,1 };
+
+	int vectorCoordenadaNueva[3] = { 0 };
+
+
+	int matrizTransformacion[3][3] = { {1, 0, 0},
+									  {0, 1, 0},
+									  {tX, tY, 1} };	//Aquí se define el incremento a transformar en T31 y T32
+
+	int x = 0;
+	int y = 0;
+
+	for (x = 0; x < 3; x++)
+	{
+		for (y = 0; y < 3; y++)
+		{
+			auxPos += vectorCoordenada[y] * matrizTransformacion[y][x];
+
+		}
+		vectorCoordenadaNueva[x] = auxPos;
+		auxPos = 0;
+	}
+
+
+	//Para sacar coordenadas X y Y nuevas
+
+	coordX = vectorCoordenadaNueva[0];	//Para trasladar en filas
+	coordY = vectorCoordenadaNueva[1];	//Para trasladar en columnas
+
+	matrizTrasladada[coordX][coordY] = 1;
+
+
+}
+
+void mostrarMatrizTrasladada()
+{
+	//Visualizar matriz
+	for (i = 0; i < filas; i++) {
+		for (j = 0; j < columnas; j++) {
+			printf(" %d ", matrizTrasladada[i][j]);
+		}
+		printf("\n");
+	}
 }
