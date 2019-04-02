@@ -1,2 +1,61 @@
 ﻿  InterfazPrimerParcial.cpp
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(247): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(271): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(298): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(389): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(393): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(397): warning C4244: '=': conversión de 'double' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(486): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(487): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(499): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(533): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(533): warning C4244: '=': conversión de '_Ty' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Ty=double
+          ]
+          and
+          [
+              _Tp=uchar
+          ]
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(590): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(591): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(592): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(593): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(611): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(657): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(691): warning C4244: 'argumento': conversión de 'double' a 'const unsigned __int64'; posible pérdida de datos
+c:\users\hola\desktop\balta\visión por computadora\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial\interfazprimerparcial.cpp(691): warning C4244: '=': conversión de '_Ty' a '_Tp'; posible pérdida de datos
+          with
+          [
+              _Ty=double
+          ]
+          and
+          [
+              _Tp=uchar
+          ]
   InterfazPrimerParcial.vcxproj -> C:\Users\HOLA\Desktop\Balta\Visión por Computadora\InterfazPrimerParcial\InterfazPrimerParcial\x64\Debug\InterfazPrimerParcial.exe
