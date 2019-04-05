@@ -31,6 +31,9 @@ void transformacionEspacial(Mat& imagen);
 void transformacionPartes(Mat& imagen);
 void histograma(Mat& imagen);
 void histogramMatching(Mat& imagenReferencia, Mat& imagenHistogramMatching);
+//void erosion(Mat& imagen);
+void erosion();
+void dilatacion();
 void mostrarMatrizEscalada();
 void mostrarMatrizTrasladada();
 
@@ -328,8 +331,15 @@ int main(int argc, char** argv)
 
 			case 5:
 
+				/*imagen = imread("C:/Users/HOLA/Desktop/imagenesEntrada/" + rutaArchivo);
+				cin >> rutaArchivo;
+				erosion(imagen);
+					*/
+				erosion();
 				break;
 			case 6:
+
+				dilatacion();
 
 				break;
 
@@ -398,8 +408,8 @@ void menu() {
 	cout << "2. Extraccion de bordes de regiones en una imagen binaria" << endl;
 	cout << "3. Transformacion Espacial de Traslacion" << endl;
 	cout << "4. Transformacion Espacial de Escala (Scaling)" << endl;
-	cout << "5. Transformacion Espacial de Distorsion Vertical (Vertical Shear)" << endl;
-	cout << "6. Transformacion Espacial de Distorsion Horizontal (Horizontal Shear)" << endl;
+	cout << "5. Erosion" << endl;
+	cout << "6. Dilatacion" << endl;
 	cout << "7. Transformaciones Espaciales de Imagen" << endl;
 	cout << "8. Transformaciones por partes de Imagen" << endl;
 	cout << "9. Histograma" << endl;
@@ -1034,4 +1044,189 @@ void mostrarMatrizTrasladada()
 		}
 		printf("\n");
 	}
+}
+
+void erosion() {
+
+	Mat imagen = imread("C:/Users/HOLA/Desktop/imagenesEntrada/fogata.png");
+	int estructura[3][3] = { {255,0,255},
+							 {255, 0, 255},
+							 {255, 0 , 255} };
+
+	/*int estructura[5][1] = { {0},{0},{0},{0},{0}};*/
+
+							 
+	if (imagen.empty()) // Verificar que se haya cargado la imagen
+	{
+		cout << "No se pudo abrir o encontrar la imagen." << endl;
+		system("pause");
+		//return -1;
+	}
+	
+	int centroX = (int)3 / 2;
+	int centroY = (int)3 / 2;
+
+	int filas = imagen.rows;
+	int columnas = imagen.cols;
+	Mat matrizGrises = Mat::zeros(filas, columnas, CV_64FC1);
+	cvtColor(imagen, matrizGrises, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
+	Mat matrizGrises1 = Mat::zeros(filas, columnas, CV_64FC1);
+	cvtColor(imagen, matrizGrises1, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
+
+	/*----------------Para convertir la imagen de escala de grises a imagen binaria--------------------------*/
+	for (int x = 0; x < matrizGrises.rows; x++) {
+		for (int y = 0; y < matrizGrises.cols; y++) {
+			Scalar intensity = matrizGrises.at<uchar>(x, y);
+			double r = intensity.val[0];		//intensidad del pixel
+			if (r <= 127)
+			{
+				matrizGrises.at<uchar>(x, y) = 0;
+			}
+			else {
+				matrizGrises.at<uchar>(x, y) = 255;
+			}	
+		}
+	}
+	String imagenBinaria = "Imagen Binaria"; //Nombre de la ventana
+	namedWindow(imagenBinaria, WINDOW_AUTOSIZE); // Crear la ventana
+	imshow(imagenBinaria, matrizGrises); // Mostrar la imagen dentro de la ventana en escala de grises antes de ser tratada
+
+	matrizGrises1 = matrizGrises;
+	/*-------------------------EROSIÓN---------------------------*/
+	for (int x = 0; x < 498; x++) {
+		for (int y = 0; y < 446; y++) {
+			Scalar intensity = matrizGrises1.at<uchar>(x, y);
+			double r = intensity.val[0];		//intensidad del pixel
+			if (r == estructura[centroX][centroY]) {
+				if (x > 0 && y > 0 && x < matrizGrises1.rows && y < matrizGrises1.cols) {
+					for (int i = 0; i < 3; i++) {
+						for (int j = 0; j < 3; j++) {
+							if (matrizGrises1.at<uchar>(x,y) == estructura[centroX][centroY] && matrizGrises1.at<uchar>(x, y+1) == estructura[centroX][centroY+1] &&
+								matrizGrises1.at<uchar>(x-1, y) == estructura[centroX-1][centroY] && matrizGrises1.at<uchar>(x, y-1) == estructura[centroX][centroY-1] &&
+								matrizGrises1.at<uchar>(x+1, y) == estructura[centroX+1][centroY] && matrizGrises1.at<uchar>(x-1, y+1) == estructura[centroX-1][centroY+1] &&
+								matrizGrises1.at<uchar>(x-1, y-1) == estructura[centroX-1][centroY-1] && matrizGrises1.at<uchar>(x+1, y-1) == estructura[centroX+1][centroY-1] &&
+								matrizGrises1.at<uchar>(x+1, y+1) == estructura[centroX+1][centroY+1]) {
+
+								//matrizGrises1.at<uchar>(x, y) = r;
+								matrizGrises1.at<uchar>(x, y) = estructura[centroX][centroY];
+							}
+							else
+							{
+								//matrizGrises1.at<uchar>(x, y) = estructura[centroX][centroY];
+								matrizGrises1.at<uchar>(x, y) = 255;
+							}
+							
+							
+						}
+
+					}
+				}
+			
+			}
+		}
+	}
+	
+	
+
+	String erosion = "Erosion"; //Nombre de la ventana
+	namedWindow(erosion, WINDOW_AUTOSIZE); // Crear la ventana
+	imshow(erosion, matrizGrises1); // Mostrar la imagen dentro de la ventana en escala de grises antes de ser tratada
+
+	waitKey(0);
+	destroyWindow(imagenBinaria);//destruir la ventana creada
+	destroyWindow(erosion);//destruir la ventana creada
+	system("pause");
+	system("cls");
+
+}
+void dilatacion() {
+	Mat imagen = imread("C:/Users/HOLA/Desktop/imagenesEntrada/fogata.png");
+	int estructura[3][3] = { {255,0,255},
+							 {255, 0, 255},
+							 {255, 0 , 255} };
+
+	/*int estructura[5][1] = { {0},{0},{0},{0},{0}};*/
+
+
+	if (imagen.empty()) // Verificar que se haya cargado la imagen
+	{
+		cout << "No se pudo abrir o encontrar la imagen." << endl;
+		system("pause");
+		//return -1;
+	}
+
+	int centroX = (int)3 / 2;
+	int centroY = (int)3 / 2;
+
+	int filas = imagen.rows;
+	int columnas = imagen.cols;
+	Mat matrizGrises = Mat::zeros(filas, columnas, CV_64FC1);
+	cvtColor(imagen, matrizGrises, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
+	Mat matrizGrises1 = Mat::zeros(filas, columnas, CV_64FC1);
+	cvtColor(imagen, matrizGrises1, COLOR_BGR2GRAY);	//Para convertir la imagen a escala de grises
+
+	/*----------------Para convertir la imagen de escala de grises a imagen binaria--------------------------*/
+	for (int x = 0; x < matrizGrises.rows; x++) {
+		for (int y = 0; y < matrizGrises.cols; y++) {
+			Scalar intensity = matrizGrises.at<uchar>(x, y);
+			double r = intensity.val[0];		//intensidad del pixel
+			if (r <= 127)
+			{
+				matrizGrises.at<uchar>(x, y) = 0;
+			}
+			else {
+				matrizGrises.at<uchar>(x, y) = 255;
+			}
+		}
+	}
+	String imagenBinaria = "Imagen Binaria"; //Nombre de la ventana
+	namedWindow(imagenBinaria, WINDOW_AUTOSIZE); // Crear la ventana
+	imshow(imagenBinaria, matrizGrises); // Mostrar la imagen dentro de la ventana en escala de grises antes de ser tratada
+
+	matrizGrises1 = matrizGrises;
+	/*-------------------------EROSIÓN---------------------------*/
+	for (int x = 0; x < 498; x++) {
+		for (int y = 0; y < 446; y++) {
+			Scalar intensity = matrizGrises1.at<uchar>(x, y);
+			double r = intensity.val[0];		//intensidad del pixel
+			if (r == estructura[centroX][centroY]) {
+				if (x > 0 && y > 0 && x < matrizGrises1.rows && y < matrizGrises1.cols) {
+					for (int i = 0; i < 3; i++) {
+						for (int j = 0; j < 3; j++) {
+							if (matrizGrises1.at<uchar>(x, y) == estructura[centroX][centroY] || matrizGrises1.at<uchar>(x, y + 1) == estructura[centroX][centroY + 1] ||
+								matrizGrises1.at<uchar>(x - 1, y) == estructura[centroX - 1][centroY] || matrizGrises1.at<uchar>(x, y - 1) == estructura[centroX][centroY - 1] ||
+								matrizGrises1.at<uchar>(x + 1, y) == estructura[centroX + 1][centroY] || matrizGrises1.at<uchar>(x - 1, y + 1) == estructura[centroX - 1][centroY + 1] ||
+								matrizGrises1.at<uchar>(x - 1, y - 1) == estructura[centroX - 1][centroY - 1] || matrizGrises1.at<uchar>(x + 1, y - 1) == estructura[centroX + 1][centroY - 1] ||
+								matrizGrises1.at<uchar>(x + 1, y + 1) == estructura[centroX + 1][centroY + 1]) {
+
+								//matrizGrises1.at<uchar>(x, y) = r;
+								matrizGrises1.at<uchar>(x, y) = estructura[centroX][centroY];
+							}
+							else
+							{
+								//matrizGrises1.at<uchar>(x, y) = estructura[centroX][centroY];
+								matrizGrises1.at<uchar>(x, y) = r;
+							}
+
+
+						}
+
+					}
+				}
+
+			}
+		}
+	}
+
+
+
+	String dilatacion = "Dilatacion"; //Nombre de la ventana
+	namedWindow(dilatacion, WINDOW_AUTOSIZE); // Crear la ventana
+	imshow(dilatacion, matrizGrises1); // Mostrar la imagen dentro de la ventana en escala de grises antes de ser tratada
+
+	waitKey(0);
+	destroyWindow(imagenBinaria);//destruir la ventana creada
+	destroyWindow(dilatacion);//destruir la ventana creada
+	system("pause");
+	system("cls");
 }
